@@ -4,8 +4,6 @@
 include README.md
 include LICENSE
 include CHANGELOG.md
-include ROADMAP.md
-include ARCHITECTURE.md
 
 # Include configuration examples
 include config.yaml.example

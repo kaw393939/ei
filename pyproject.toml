@@ -5,8 +5,8 @@ description = "EverydayAI CLI - Personal AI toolkit for regular people"
 authors = ["Keith Williams <kaw393939@gmail.com>"]
 readme = "README.md"
 homepage = "https://keithwilliams.io"
-repository = "https://github.com/kaw393939/ei-cli"
-documentation = "https://github.com/kaw393939/ei-cli/blob/main/README.md"
+repository = "https://github.com/kaw393939/ei"
+documentation = "https://github.com/kaw393939/ei/blob/main/README.md"
 keywords = ["cli", "ai", "everydayai", "productivity", "automation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
