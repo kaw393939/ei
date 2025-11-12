@@ -36,8 +36,8 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://keithwilliams.io"
-Repository = "https://github.com/kaw393939/ei"
-Documentation = "https://github.com/kaw393939/ei/blob/main/README.md"
+Repository = "https://github.com/kaw393939/eai"
+Documentation = "https://github.com/kaw393939/eai/blob/main/README.md"
 
 [project.scripts]
 eai = "ei_cli.cli.app:main"

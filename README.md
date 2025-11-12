@@ -7,9 +7,9 @@
 Created by Keith Williams - Director of Enterprise AI @ NJIT
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Code Coverage](https://img.shields.io/badge/coverage-25.35%25-orange.svg)](https://github.com/kaw393939/ei)
+[![Code Coverage](https://img.shields.io/badge/coverage-25.35%25-orange.svg)](https://github.com/kaw393939/eai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://github.com/kaw393939/ei)
+[![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](https://github.com/kaw393939/eai)
 
 ## What is EverydayAI CLI?
 
@@ -46,8 +46,8 @@ AI without writing code.
 pip install everydayai-cli
 
 # From source
-git clone https://github.com/kaw393939/ei.git
-cd ei
+git clone https://github.com/kaw393939/eai.git
+cd eai
 poetry install
 
 # Verify installation
@@ -267,8 +267,8 @@ Create custom templates in `~/.vibe/templates/`.
 
 ```bash
 # Clone repository
-git clone https://github.com/kaw393939/ei.git
-cd ei
+git clone https://github.com/kaw393939/eai.git
+cd eai
 
 # Install dependencies
 poetry install
@@ -378,13 +378,13 @@ MIT License - See [LICENSE](LICENSE) for details.
 ## Links
 
 - **Website**: [keithwilliams.io](https://keithwilliams.io)
-- **GitHub**: [github.com/kaw393939/ei](https://github.com/kaw393939/ei)
+- **GitHub**: [github.com/kaw393939/eai](https://github.com/kaw393939/eai)
 - **PyPI**: [pypi.org/project/everydayai-cli](https://pypi.org/project/everydayai-cli)
 - **Documentation**:
   - [TECHNICAL_DEBT_AUDIT.md](TECHNICAL_DEBT_AUDIT.md) - Current status
   - [ROADMAP.md](ROADMAP.md) - Planned features
 - **Issues**:
-  [github.com/kaw393939/ei/issues](https://github.com/kaw393939/ei/issues)
+  [github.com/kaw393939/eai/issues](https://github.com/kaw393939/eai/issues)
 
 ---
 
