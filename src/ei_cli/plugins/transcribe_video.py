@@ -405,3 +405,26 @@ def _transcribe_video_impl(
         if not keep_audio and audio_file and audio_file.exists():
             with contextlib.suppress(OSError):
                 audio_file.unlink()
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class TranscribeVideoPlugin(BaseCommandPlugin):
+    """Plugin for extracting and transcribing audio from videos."""
+
+    def __init__(self) -> None:
+        """Initialize the transcribe_video plugin."""
+        super().__init__(
+            name="transcribe_video",
+            category="Audio",
+            help_text="Extract and transcribe audio from videos",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the transcribe_video command."""
+        return transcribe_video
+
+
+# Plugin instance for auto-discovery
+plugin = TranscribeVideoPlugin()

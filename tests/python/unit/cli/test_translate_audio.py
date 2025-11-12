@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.translate_audio import translate_audio
+from ei_cli.plugins.translate_audio import translate_audio
 from ei_cli.core.errors import AIServiceError, ConfigurationError
 from ei_cli.services.base import ServiceUnavailableError
 
@@ -22,7 +22,7 @@ class TestTranslateAudioCommand:
     def mock_service_factory(self):
         """Mock ServiceFactory."""
         with patch(
-            "ei_cli.cli.commands.translate_audio.ServiceFactory",
+            "ei_cli.plugins.translate_audio.ServiceFactory",
         ) as mock:
             yield mock
 

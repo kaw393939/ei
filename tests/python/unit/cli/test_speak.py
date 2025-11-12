@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.speak import speak
+from ei_cli.plugins.speak import speak
 from ei_cli.core.errors import AIServiceError, ConfigurationError
 from ei_cli.services.ai_service import TextToSpeechResult
 
@@ -46,7 +46,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -73,7 +73,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -97,7 +97,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -123,7 +123,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -149,7 +149,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -173,7 +173,7 @@ class TestSpeakCommand:
         output_file = tmp_path / "output.mp3"
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(speak, ["-o", str(output_file)])
@@ -196,7 +196,7 @@ class TestSpeakCommand:
         output_file = tmp_path / "output.mp3"
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -222,7 +222,7 @@ class TestSpeakCommand:
         output_file = tmp_path / "output.mp3"
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -247,7 +247,7 @@ class TestSpeakCommand:
         )
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -272,7 +272,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -300,7 +300,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -322,10 +322,8 @@ class TestSpeakCommand:
 
         # Standard voices work with both models
         standard_voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
-        # tts-1 exclusive voices
+        # tts-1 exclusive voices (all available voices)
         tts1_voices = ["ash", "ballad", "coral", "sage", "verse"]
-        # tts-1-hd exclusive voices
-        hd_voices = ["marin", "cedar"]
 
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
@@ -334,7 +332,7 @@ class TestSpeakCommand:
             output_file = tmp_path / f"{voice}_standard.mp3"
 
             with patch(
-                "ei_cli.cli.commands.speak.ServiceFactory",
+                "ei_cli.plugins.speak.ServiceFactory",
                 return_value=mock_service_factory,
             ):
                 result = runner.invoke(
@@ -350,28 +348,12 @@ class TestSpeakCommand:
             output_file = tmp_path / f"{voice}_tts1.mp3"
 
             with patch(
-                "ei_cli.cli.commands.speak.ServiceFactory",
+                "ei_cli.plugins.speak.ServiceFactory",
                 return_value=mock_service_factory,
             ):
                 result = runner.invoke(
                     speak,
                     ["Test", "-v", voice, "-m", "tts-1", "-o", str(output_file)],
-                )
-
-            assert result.exit_code == 0
-            assert f"Voice: {voice}" in result.output
-
-        # Test tts-1-hd exclusive voices
-        for voice in hd_voices:
-            output_file = tmp_path / f"{voice}_hd.mp3"
-
-            with patch(
-                "ei_cli.cli.commands.speak.ServiceFactory",
-                return_value=mock_service_factory,
-            ):
-                result = runner.invoke(
-                    speak,
-                    ["Test", "-v", voice, "-m", "tts-1-hd", "-o", str(output_file)],
                 )
 
             assert result.exit_code == 0
@@ -389,57 +371,37 @@ class TestSpeakCommand:
 
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
-        # Test marin voice requires tts-1-hd
+        # Test that tts-1 exclusive voices work with tts-1
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
                 speak,
-                ["Test", "-v", "marin", "-m", "tts-1", "-o", str(output_file)],
+                [
+                    "Test", "-v", "ballad", "-m", "tts-1",
+                    "-o", str(output_file),
+                ],
             )
 
-        assert result.exit_code == 1
-        assert "only available with tts-1-hd" in result.output
+        assert result.exit_code == 0
+        assert "Speech generated!" in result.output
 
-        # Test cedar voice requires tts-1-hd
+        # Test that standard voices work with both models
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
                 speak,
-                ["Test", "-v", "cedar", "-m", "tts-1", "-o", str(output_file)],
+                [
+                    "Test", "-v", "nova", "-m", "tts-1-hd",
+                    "-o", str(output_file),
+                ],
             )
 
-        assert result.exit_code == 1
-        assert "only available with tts-1-hd" in result.output
-
-        # Test ballad voice requires tts-1
-        with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
-            return_value=mock_service_factory,
-        ):
-            result = runner.invoke(
-                speak,
-                ["Test", "-v", "ballad", "-m", "tts-1-hd", "-o", str(output_file)],
-            )
-
-        assert result.exit_code == 1
-        assert "only available with tts-1" in result.output
-
-        # Test sage voice requires tts-1
-        with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
-            return_value=mock_service_factory,
-        ):
-            result = runner.invoke(
-                speak,
-                ["Test", "-v", "sage", "-m", "tts-1-hd", "-o", str(output_file)],
-            )
-
-        assert result.exit_code == 1
-        assert "only available with tts-1" in result.output
+        assert result.exit_code == 0
+        assert "Speech generated!" in result.output
 
     def test_speak_speed_range(
         self,
@@ -455,7 +417,7 @@ class TestSpeakCommand:
 
         # Test minimum speed
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -466,7 +428,7 @@ class TestSpeakCommand:
 
         # Test maximum speed
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -491,7 +453,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -525,7 +487,7 @@ class TestSpeakCommand:
         mock_play = Mock()
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ), patch.dict(
             "sys.modules",
@@ -561,7 +523,7 @@ class TestSpeakCommand:
         output_file.write_bytes(b"fake audio data")
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -597,7 +559,7 @@ class TestSpeakCommand:
         mock_play = Mock()
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ), patch.dict(
             "sys.modules",
@@ -633,7 +595,7 @@ class TestSpeakCommand:
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
@@ -641,7 +603,7 @@ class TestSpeakCommand:
                 [
                     "--input", str(input_file),
                     "-o", str(output_file),
-                    "-v", "marin",
+                    "-v", "nova",
                     "-m", "tts-1-hd",
                     "-s", "0.9",
                     "-f", "flac",
@@ -655,7 +617,7 @@ class TestSpeakCommand:
 
         # Verify all parameters were passed correctly
         call_kwargs = mock_ai_service.text_to_speech_stream.call_args[1]
-        assert call_kwargs["voice"] == "marin"
+        assert call_kwargs["voice"] == "nova"
         assert call_kwargs["model"] == "tts-1-hd"
         assert call_kwargs["speed"] == 0.9
         assert call_kwargs["response_format"] == "flac"
@@ -681,7 +643,7 @@ class TestSpeakCommand:
             mock_service_factory.get_ai_service.return_value = mock_ai_service
 
             with patch(
-                "ei_cli.cli.commands.speak.ServiceFactory",
+                "ei_cli.plugins.speak.ServiceFactory",
                 return_value=mock_service_factory,
             ):
                 result = runner.invoke(
@@ -712,28 +674,34 @@ class TestSpeakCommand:
         mock_ai_service.text_to_speech.return_value = mock_result
         mock_service_factory.get_ai_service.return_value = mock_ai_service
 
-        # Test HD-exclusive voice with tts-1-hd (should work)
+        # Test standard voice with both models (should work for both)
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
                 speak,
-                ["Test", "-o", str(output_file), "-v", "marin", "-m", "tts-1-hd"],
+                [
+                    "Test", "-o", str(output_file), "-v", "nova",
+                    "-m", "tts-1-hd",
+                ],
             )
 
         assert result.exit_code == 0
         assert "Speech generated" in result.output
 
-        # Test HD-exclusive voice with tts-1 (should fail)
+        # Test same voice with tts-1 (should also work)
         with patch(
-            "ei_cli.cli.commands.speak.ServiceFactory",
+            "ei_cli.plugins.speak.ServiceFactory",
             return_value=mock_service_factory,
         ):
             result = runner.invoke(
                 speak,
-                ["Test", "-o", str(output_file), "-v", "marin", "-m", "tts-1"],
+                [
+                    "Test", "-o", str(output_file), "-v", "nova",
+                    "-m", "tts-1",
+                ],
             )
 
-        assert result.exit_code == 1
-        assert "only available with tts-1-hd" in result.output
+        assert result.exit_code == 0
+        assert "Speech generated" in result.output

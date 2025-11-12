@@ -430,6 +430,10 @@ class TestConfigIntegration:
 
     def test_env_file_auto_loading(self, tmp_path, monkeypatch):
         """Test that .env file is automatically loaded."""
+        # Clear any existing API key environment variables
+        monkeypatch.delenv("API__OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        
         # Create .env file
         env_file = tmp_path / ".env"
         env_file.write_text("""

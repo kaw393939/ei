@@ -1,8 +1,4 @@
-"""
-Vision analysis command for ei CLI.
-
-Provides image analysis using GPT-4 Vision models.
-"""
+"""Vision analysis plugin for image analysis using GPT-4/5 Vision models."""
 
 import click
 from click.exceptions import Exit
@@ -12,6 +8,7 @@ from rich.panel import Panel
 
 from ei_cli.cli.utils import require_api_key
 from ei_cli.core.errors import MissingAPIKeyError
+from ei_cli.plugins.base import BaseCommandPlugin
 from ei_cli.services.ai_service import VisionResult
 from ei_cli.services.base import ServiceError
 from ei_cli.services.factory import ServiceFactory
@@ -200,3 +197,23 @@ def vision(
     except Exception as e:  # pragma: no cover
         console.print(f"[red]✗[/red] Unexpected error: {e}")
         raise Exit(1) from None
+
+
+class VisionPlugin(BaseCommandPlugin):
+    """Plugin for GPT-4/5 Vision image analysis."""
+
+    def __init__(self) -> None:
+        """Initialize the vision plugin."""
+        super().__init__(
+            name="vision",
+            category="AI",
+            help_text="Analyze images using GPT-4/5 Vision",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the vision command."""
+        return vision
+
+
+# Plugin instance for auto-discovery
+plugin = VisionPlugin()

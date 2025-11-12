@@ -448,3 +448,26 @@ def search(
         _handle_service_error(console, e)
     except Exception as e:
         _handle_unexpected_error(console, e)
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class SearchPlugin(BaseCommandPlugin):
+    """Plugin for web search using Google Custom Search."""
+
+    def __init__(self) -> None:
+        """Initialize the search plugin."""
+        super().__init__(
+            name="search",
+            category="Web",
+            help_text="Search the web using Google Custom Search",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the search command."""
+        return search
+
+
+# Plugin instance for auto-discovery
+plugin = SearchPlugin()

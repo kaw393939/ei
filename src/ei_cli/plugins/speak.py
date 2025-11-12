@@ -349,3 +349,26 @@ def speak(
             err=True,
         )
         raise click.exceptions.Exit(1) from e
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class SpeakPlugin(BaseCommandPlugin):
+    """Plugin for text-to-speech generation using OpenAI TTS."""
+
+    def __init__(self) -> None:
+        """Initialize the speak plugin."""
+        super().__init__(
+            name="speak",
+            category="Audio",
+            help_text="Generate speech from text using OpenAI TTS",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the speak command."""
+        return speak
+
+
+# Plugin instance for auto-discovery
+plugin = SpeakPlugin()

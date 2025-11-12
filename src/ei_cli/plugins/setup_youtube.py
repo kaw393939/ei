@@ -235,3 +235,26 @@ def clear_youtube() -> None:
         )
     else:
         console.print("[dim]Cancelled[/dim]")
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class SetupYoutubePlugin(BaseCommandPlugin):
+    """Plugin for configuring YouTube integration."""
+
+    def __init__(self) -> None:
+        """Initialize the setup_youtube plugin."""
+        super().__init__(
+            name="youtube",
+            category="Setup",
+            help_text="Configure YouTube integration",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the youtube command group."""
+        return youtube_group
+
+
+# Plugin instance for auto-discovery
+plugin = SetupYoutubePlugin()

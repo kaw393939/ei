@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.vision import vision
+from ei_cli.plugins.vision import vision
 from ei_cli.core.errors import MissingAPIKeyError
 from ei_cli.services.base import ServiceError
 
@@ -21,7 +21,7 @@ class TestVisionCommand:
     @pytest.fixture
     def mock_service_factory(self):
         """Mock ServiceFactory."""
-        with patch("ei_cli.cli.commands.vision.ServiceFactory") as mock:
+        with patch("ei_cli.plugins.vision.ServiceFactory") as mock:
             yield mock
 
     @pytest.fixture

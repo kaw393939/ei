@@ -18,7 +18,7 @@ class ModelConfig:
 
     Attributes:
         vision: Model for image analysis (GPT-5)
-        search: Model for web search (GPT-4o)
+        search: Model for web search (GPT-5)
         image: Model for image generation (gpt-image-1)
         transcription: Model for audio transcription (whisper-1)
         tts: Model for text-to-speech (tts-1)
@@ -27,8 +27,8 @@ class ModelConfig:
     # Vision Analysis - Use GPT-5 for all image analysis
     vision: str = "gpt-5"
 
-    # Web Search - Use GPT-4o for search queries
-    search: str = "gpt-4o"
+    # Web Search - Use GPT-5 for search queries
+    search: str = "gpt-5"
 
     # Image Generation - Use gpt-image-1 for all image generation
     image: str = "gpt-image-1"

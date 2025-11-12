@@ -206,3 +206,26 @@ def multi_vision(
     except Exception as e:  # pragma: no cover
         console.print(f"[red]✗[/red] Unexpected error: {e}")
         raise Exit(1) from None
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class MultiVisionPlugin(BaseCommandPlugin):
+    """Plugin for multi-image vision analysis."""
+
+    def __init__(self) -> None:
+        """Initialize the multi_vision plugin."""
+        super().__init__(
+            name="multi_vision",
+            category="AI",
+            help_text="Analyze multiple images in a session",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the multi_vision command."""
+        return multi_vision
+
+
+# Plugin instance for auto-discovery
+plugin = MultiVisionPlugin()

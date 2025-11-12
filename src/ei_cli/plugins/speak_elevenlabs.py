@@ -312,3 +312,26 @@ def list_models() -> None:
         console.print(f"\n[red]✗ Error: {e}[/red]")
         raise click.Abort()
 
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class SpeakElevenlabsPlugin(BaseCommandPlugin):
+    """Plugin for speech generation using ElevenLabs TTS."""
+
+    def __init__(self) -> None:
+        """Initialize the speak_elevenlabs plugin."""
+        super().__init__(
+            name="elevenlabs",
+            category="Audio",
+            help_text="Generate speech using ElevenLabs TTS",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the elevenlabs command group."""
+        return elevenlabs_group
+
+
+# Plugin instance for auto-discovery
+plugin = SpeakElevenlabsPlugin()

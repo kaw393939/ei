@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.multi_vision import multi_vision
+from ei_cli.plugins.multi_vision import multi_vision
 from ei_cli.core.errors import MissingAPIKeyError
 from ei_cli.services.ai_service import VisionResult
 from ei_cli.services.base import ServiceError
@@ -15,7 +15,7 @@ from ei_cli.services.base import ServiceError
 class TestMultiVisionCommand:
     """Test multi-image vision analysis command."""
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_basic_multi_vision_analysis(self, mock_factory, tmp_path):
         """Test basic multi-image analysis."""
         # Create test images
@@ -46,7 +46,7 @@ class TestMultiVisionCommand:
         assert "similar themes" in result.output
         mock_service.analyze_multiple_images.assert_called_once()
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_with_custom_prompt(self, mock_factory, tmp_path):
         """Test multi-image analysis with custom prompt."""
         # Create test images
@@ -81,7 +81,7 @@ class TestMultiVisionCommand:
         call_args = mock_service.analyze_multiple_images.call_args
         assert call_args.kwargs["prompt"] == "What colors are common?"
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_with_compare_mode(self, mock_factory, tmp_path):
         """Test multi-image analysis with comparison mode."""
         # Create test images
@@ -115,7 +115,7 @@ class TestMultiVisionCommand:
         call_args = mock_service.analyze_multiple_images.call_args
         assert call_args.kwargs["compare_mode"] is True
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_with_detail_level(self, mock_factory, tmp_path):
         """Test multi-image analysis with detail level."""
         # Create test images
@@ -149,7 +149,7 @@ class TestMultiVisionCommand:
         call_args = mock_service.analyze_multiple_images.call_args
         assert call_args.kwargs["detail_level"] == "high"
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_json_output(self, mock_factory, tmp_path):
         """Test multi-image analysis with JSON output."""
         # Create test images
@@ -202,7 +202,7 @@ class TestMultiVisionCommand:
         assert result.exit_code == 1
         assert "Maximum 3 images allowed" in result.output
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_missing_api_key(self, mock_factory, tmp_path):
         """Test multi-vision with missing API key."""
         # Create test images
@@ -225,7 +225,7 @@ class TestMultiVisionCommand:
         assert result.exit_code == 1
         assert "Missing API key" in result.output
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_service_error(self, mock_factory, tmp_path):
         """Test multi-vision with service error."""
         # Create test images
@@ -248,7 +248,7 @@ class TestMultiVisionCommand:
         assert result.exit_code == 1
         assert "Service error" in result.output
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_service_unavailable(self, mock_factory, tmp_path):
         """Test multi-vision when service is unavailable."""
         # Create test images
@@ -271,7 +271,7 @@ class TestMultiVisionCommand:
         assert result.exit_code == 1
         assert "Multi-image analysis tool not available" in result.output
 
-    @patch("ei_cli.cli.commands.multi_vision.ServiceFactory")
+    @patch("ei_cli.plugins.multi_vision.ServiceFactory")
     def test_multi_vision_combined_options(self, mock_factory, tmp_path):
         """Test multi-vision with all options combined."""
         # Create test images

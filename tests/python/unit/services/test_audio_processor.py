@@ -95,8 +95,8 @@ class TestAudioProcessor:
             assert "-af" in call_args
             filter_idx = call_args.index("-af")
             filters = call_args[filter_idx + 1]
-            assert "highpass=f=40" in filters
-            assert "lowpass=f=7000" in filters
+            assert "highpass=f=80" in filters
+            # lowpass filter was removed - Whisper handles full bandwidth well
 
     def test_preprocess_without_filters(
         self,

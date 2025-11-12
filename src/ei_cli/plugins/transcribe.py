@@ -269,3 +269,26 @@ def _transcribe_impl(
     else:
         # Output to stdout
         click.echo(output_text)
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class TranscribePlugin(BaseCommandPlugin):
+    """Plugin for audio transcription using Whisper."""
+
+    def __init__(self) -> None:
+        """Initialize the transcribe plugin."""
+        super().__init__(
+            name="transcribe",
+            category="Audio",
+            help_text="Transcribe audio to text using Whisper",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the transcribe command."""
+        return transcribe
+
+
+# Plugin instance for auto-discovery
+plugin = TranscribePlugin()

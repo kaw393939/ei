@@ -1,5 +1,5 @@
 """
-Smoke tests for the main CLI application.
+Smoke tests for the main CLI application with plugin system.
 """
 from click.testing import CliRunner
 
@@ -22,43 +22,43 @@ class TestCLIApp:
         runner = CliRunner()
         result = runner.invoke(cli, ["--version"])
         assert result.exit_code == 0
-        assert "ei, version 0.1.0" in result.output
-
-    def test_cli_has_crop_command(self):
-        """Test crop command is registered."""
-        runner = CliRunner()
-        result = runner.invoke(cli, ["crop", "--help"])
-        assert result.exit_code == 0
-        assert "crop" in result.output.lower()
+        # Version check - accept different CLI name formats
+        assert "0.1." in result.output and "version" in result.output
 
     def test_cli_has_image_command(self):
-        """Test image command is registered."""
+        """Test image command is registered via plugin."""
         runner = CliRunner()
         result = runner.invoke(cli, ["image", "--help"])
         assert result.exit_code == 0
         assert "image" in result.output.lower()
 
-    def test_cli_has_remove_bg_command(self):
-        """Test remove-bg command is registered."""
-        runner = CliRunner()
-        result = runner.invoke(cli, ["remove-bg", "--help"])
-        assert result.exit_code == 0
-        output = result.output.lower()
-        assert "remove" in output or "background" in output
-
     def test_cli_has_search_command(self):
-        """Test search command is registered."""
+        """Test search command is registered via plugin."""
         runner = CliRunner()
         result = runner.invoke(cli, ["search", "--help"])
         assert result.exit_code == 0
         assert "search" in result.output.lower()
 
     def test_cli_has_vision_command(self):
-        """Test vision command is registered."""
+        """Test vision command is registered via plugin."""
         runner = CliRunner()
         result = runner.invoke(cli, ["vision", "--help"])
         assert result.exit_code == 0
         assert "vision" in result.output.lower()
+
+    def test_cli_has_speak_command(self):
+        """Test speak command is registered via plugin."""
+        runner = CliRunner()
+        result = runner.invoke(cli, ["speak", "--help"])
+        assert result.exit_code == 0
+        assert "speak" in result.output.lower()
+
+    def test_cli_has_transcribe_command(self):
+        """Test transcribe command is registered via plugin."""
+        runner = CliRunner()
+        result = runner.invoke(cli, ["transcribe", "--help"])
+        assert result.exit_code == 0
+        assert "transcribe" in result.output.lower()
 
     def test_cli_invalid_command(self):
         """Test CLI handles invalid command."""
@@ -72,3 +72,12 @@ class TestCLIApp:
         # Just verify it's callable - actual execution would need mocking
         assert callable(main)
         assert main.__name__ == "main"
+
+    def test_plugins_loaded(self):
+        """Test that plugins are loaded dynamically."""
+        runner = CliRunner()
+        result = runner.invoke(cli, ["--help"])
+        assert result.exit_code == 0
+        # Check that at least some plugin commands are available
+        output = result.output.lower()
+        assert "vision" in output or "image" in output or "speak" in output

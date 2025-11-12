@@ -185,3 +185,26 @@ def translate_audio(
             err=True,
         )
         raise click.exceptions.Exit(1) from e
+
+
+from ei_cli.plugins.base import BaseCommandPlugin
+
+
+class TranslateAudioPlugin(BaseCommandPlugin):
+    """Plugin for translating audio between languages."""
+
+    def __init__(self) -> None:
+        """Initialize the translate_audio plugin."""
+        super().__init__(
+            name="translate_audio",
+            category="Audio",
+            help_text="Translate audio between languages",
+        )
+
+    def get_command(self) -> click.Command:
+        """Get the translate_audio command."""
+        return translate_audio
+
+
+# Plugin instance for auto-discovery
+plugin = TranslateAudioPlugin()

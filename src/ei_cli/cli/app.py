@@ -1,24 +1,13 @@
 """
-Main CLI application.
+Main CLI application with plugin-based command loading.
 """
 import sys
 from pathlib import Path
 
 import click
 
-from ei_cli.cli.commands.crop import crop
-from ei_cli.cli.commands.image import image
-from ei_cli.cli.commands.multi_vision import multi_vision
-from ei_cli.cli.commands.remove_bg import remove_bg
-from ei_cli.cli.commands.search import search
-from ei_cli.cli.commands.setup_youtube import youtube_group
-from ei_cli.cli.commands.speak import speak
-from ei_cli.cli.commands.speak_elevenlabs import elevenlabs_group
-from ei_cli.cli.commands.transcribe import transcribe
-from ei_cli.cli.commands.transcribe_video import transcribe_video
-from ei_cli.cli.commands.translate_audio import translate_audio
-from ei_cli.cli.commands.vision import vision
 from ei_cli.config import reload_settings
+from ei_cli.plugins.loader import PluginLoader
 
 
 @click.group()
@@ -42,19 +31,10 @@ def cli(config: Path | None) -> None:
             sys.exit(1)
 
 
-# Register commands
-cli.add_command(crop)
-cli.add_command(elevenlabs_group)
-cli.add_command(image)
-cli.add_command(multi_vision)
-cli.add_command(remove_bg)
-cli.add_command(search)
-cli.add_command(speak)
-cli.add_command(transcribe)
-cli.add_command(transcribe_video)
-cli.add_command(translate_audio)
-cli.add_command(vision)
-cli.add_command(youtube_group)
+# Register commands dynamically from plugins
+_plugin_loader = PluginLoader()
+_plugin_loader.discover_plugins()
+_plugin_loader.register_commands(cli)
 
 
 def main() -> None:  # pragma: no cover

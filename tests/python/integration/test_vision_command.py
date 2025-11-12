@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.vision import vision
+from ei_cli.plugins.vision import vision
 from ei_cli.core.errors import MissingAPIKeyError
 from ei_cli.services.ai_service import VisionResult
 from ei_cli.services.base import ServiceError
@@ -17,7 +17,7 @@ from ei_cli.services.base import ServiceError
 class TestVisionCommandBasic:
     """Basic tests for vision command."""
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_basic_usage(self, mock_factory_class: Mock) -> None:
         """Test basic vision command with image argument."""
         mock_service = Mock()
@@ -39,7 +39,7 @@ class TestVisionCommandBasic:
         assert "Vision Analysis" in result.output
         assert "beautiful sunset" in result.output
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_with_custom_prompt(self, mock_factory_class: Mock) -> None:
         """Test vision command with custom prompt."""
         mock_service = Mock()
@@ -63,7 +63,7 @@ class TestVisionCommandBasic:
         assert result.exit_code == 0
         assert "What colors are in this image?" in result.output
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_with_detail_level(self, mock_factory_class: Mock) -> None:
         """Test vision command with detail level."""
         mock_service = Mock()
@@ -89,7 +89,7 @@ class TestVisionCommandBasic:
 class TestVisionCommandJsonOutput:
     """Tests for JSON output format."""
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_json_output(self, mock_factory_class: Mock) -> None:
         """Test vision command with JSON output."""
         mock_service = Mock()
@@ -116,7 +116,7 @@ class TestVisionCommandJsonOutput:
 class TestVisionCommandErrors:
     """Tests for error handling."""
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_service_unavailable(
         self,
         mock_factory_class: Mock,
@@ -138,7 +138,7 @@ class TestVisionCommandErrors:
         assert "not available" in result.output
         assert "API__OPENAI_API_KEY" in result.output
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_missing_api_key_error(
         self,
         mock_factory_class: Mock,
@@ -159,7 +159,7 @@ class TestVisionCommandErrors:
         assert result.exit_code == 1
         assert "Missing API key" in result.output
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_service_error(self, mock_factory_class: Mock) -> None:
         """Test handling ServiceError."""
         mock_service = Mock()
@@ -178,7 +178,7 @@ class TestVisionCommandErrors:
         assert result.exit_code == 1
         assert "API request failed" in result.output
 
-    @patch("ei_cli.cli.commands.vision.ServiceFactory")
+    @patch("ei_cli.plugins.vision.ServiceFactory")
     def test_vision_unexpected_error(self, mock_factory_class: Mock) -> None:
         """Test handling unexpected errors."""
         mock_service = Mock()

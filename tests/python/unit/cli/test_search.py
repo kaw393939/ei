@@ -7,7 +7,7 @@ from click.exceptions import Exit
 from click.testing import CliRunner
 from rich.console import Console
 
-from ei_cli.cli.commands.search import (
+from ei_cli.plugins.search import (
     _build_user_location,
     _display_answer,
     _display_citations,
@@ -113,7 +113,7 @@ class TestSearchHelpers:
         assert output_file.exists()
         assert output_file.parent.exists()
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_answer(self, mock_console_class):
         """Test displaying answer in panel."""
         mock_console = Mock()
@@ -124,7 +124,7 @@ class TestSearchHelpers:
 
         # Just verify it doesn't raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_citations_empty(self, mock_console_class):
         """Test displaying empty citations list."""
         mock_console = Mock()
@@ -135,7 +135,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_citations_with_data(self, mock_console_class):
         """Test displaying citations with data."""
         mock_console = Mock()
@@ -154,7 +154,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_sources(self, mock_console_class):
         """Test displaying sources."""
         mock_console = Mock()
@@ -166,7 +166,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_metadata_with_data(self, mock_console_class):
         """Test displaying metadata."""
         mock_console = Mock()
@@ -182,7 +182,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_metadata_none(self, mock_console_class):
         """Test displaying None metadata."""
         mock_console = Mock()
@@ -193,7 +193,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_json_output(self, mock_console_class):
         """Test displaying JSON output."""
         mock_console = Mock()
@@ -222,7 +222,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_display_rich_output(self, mock_console_class):
         """Test displaying rich formatted output."""
         mock_console = Mock()
@@ -251,7 +251,7 @@ class TestSearchHelpers:
 
         # Should not raise
 
-    @patch("ei_cli.cli.commands.search.Console")
+    @patch("ei_cli.plugins.search.Console")
     def test_handle_service_error(self, mock_console_class):
         """Test handling service error."""
         mock_console = Mock()
@@ -267,7 +267,7 @@ class TestSearchHelpers:
 class TestSearchCommand:
     """Tests for search command."""
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_basic(self, mock_factory_class):
         """Test basic search command."""
         runner = CliRunner()
@@ -290,7 +290,7 @@ class TestSearchCommand:
         assert result.exit_code == 0
         assert "Python is great" in result.output or result.exit_code == 0
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_domains(self, mock_factory_class):
         """Test search with domain filtering."""
         runner = CliRunner()
@@ -318,7 +318,7 @@ class TestSearchCommand:
         domains = ["python.org", "docs.python.org"]
         assert call_args[1]["allowed_domains"] == domains
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_location(self, mock_factory_class):
         """Test search with location."""
         runner = CliRunner()
@@ -346,7 +346,7 @@ class TestSearchCommand:
         expected_loc = {"country": "US", "city": "Boston"}
         assert call_args[1]["user_location"] == expected_loc
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_output_file(self, mock_factory_class, tmp_path):
         """Test search with output file."""
         runner = CliRunner()
@@ -374,7 +374,7 @@ class TestSearchCommand:
         content = output_file.read_text()
         assert "Test answer" in content
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_json_output(self, mock_factory_class):
         """Test search with JSON output."""
         runner = CliRunner()
@@ -396,7 +396,7 @@ class TestSearchCommand:
         assert result.exit_code == 0
         # JSON output should contain the answer
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_show_sources(self, mock_factory_class):
         """Test search with show sources flag."""
         runner = CliRunner()
@@ -417,7 +417,7 @@ class TestSearchCommand:
 
         assert result.exit_code == 0
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_citations(self, mock_factory_class):
         """Test search with citations in results."""
         runner = CliRunner()
@@ -445,7 +445,7 @@ class TestSearchCommand:
 
         assert result.exit_code == 0
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_service_error(self, mock_factory_class):
         """Test search with service error."""
         runner = CliRunner()
@@ -466,7 +466,7 @@ class TestSearchCommand:
         assert result.exit_code == 1
         assert "Search failed" in result.output or result.exit_code == 1
 
-    @patch("ei_cli.cli.commands.search.ServiceFactory")
+    @patch("ei_cli.plugins.search.ServiceFactory")
     def test_search_with_json_and_output_file(
         self,
         mock_factory_class,

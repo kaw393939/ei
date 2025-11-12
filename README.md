@@ -42,7 +42,7 @@ eai transcribe_video "https://youtube.com/watch?v=..." -o transcript.txt
 
 | Command | Description |
 |---------|-------------|
-| `eai image` | Generate images with DALL-E |
+| `eai image` | Generate images with gpt-image-1 |
 | `eai vision` | Analyze single images with GPT-5 |
 | `eai multi_vision` | Analyze multiple images simultaneously |
 | `eai speak` | Text-to-speech with OpenAI voices |
@@ -59,7 +59,9 @@ For detailed documentation on each command, see below.
 
 ### Image Generation
 
-`eai image` - Create images from text descriptions using DALL-E
+`eai image` - Create images from text descriptions using gpt-image-1
+
+📖 **[Complete gpt-image-1 Guide](docs/GPT_IMAGE_1_GUIDE.md)** - Sizes, quality levels, transparent backgrounds, costs, and advanced features
 
 ```bash
 eai image "a serene mountain landscape" -o landscape.png

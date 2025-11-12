@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-from ei_cli.cli.commands.image import image
+from ei_cli.plugins.image import image
 from ei_cli.core.errors import MissingAPIKeyError
 from ei_cli.services.base import ServiceError
 
@@ -21,7 +21,7 @@ class TestImageCommand:
     @pytest.fixture
     def mock_service_factory(self):
         """Mock ServiceFactory."""
-        with patch("ei_cli.cli.commands.image.ServiceFactory") as mock:
+        with patch("ei_cli.plugins.image.ServiceFactory") as mock:
             yield mock
 
     @pytest.fixture
@@ -52,7 +52,7 @@ class TestImageCommand:
 
         assert result.exit_code == 0
         assert "Image Generated Successfully" in result.output
-        assert "https://example.com/generated-image.png" in result.output
+        assert "Generated (base64 data)" in result.output
         mock_ai_service.generate_image.assert_called_once()
 
     def test_image_with_size_option(
@@ -74,6 +74,8 @@ class TestImageCommand:
             quality="auto",
             output_path=None,
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_hd_quality(
@@ -94,6 +96,8 @@ class TestImageCommand:
             quality="high",
             output_path=None,
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_natural_style(
@@ -113,6 +117,8 @@ class TestImageCommand:
             quality="auto",
             output_path=None,
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_output_file(
@@ -138,6 +144,8 @@ class TestImageCommand:
             quality="auto",
             output_path=str(output_file),
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_output_directory(
@@ -182,6 +190,8 @@ class TestImageCommand:
             quality="auto",
             output_path=None,
             show_progress=False,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_all_options(
@@ -214,6 +224,8 @@ class TestImageCommand:
             quality="high",
             output_path=str(output_file),
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_missing_api_key(
@@ -314,6 +326,8 @@ class TestImageCommand:
             quality="auto",
             output_path=None,
             show_progress=True,
+            enhance_prompt=True,
+            use_cache=True,
         )
 
     def test_image_with_model_option(
@@ -335,7 +349,7 @@ class TestImageCommand:
     def test_image_url_display(
         self, runner, mock_service_factory, mock_ai_service,
     ):
-        """Test that image URL is displayed."""
+        """Test that image generation result is displayed."""
         mock_service_factory.return_value.get_ai_service.return_value = (
             mock_ai_service
         )
@@ -343,8 +357,8 @@ class TestImageCommand:
         result = runner.invoke(image, ["test"])
 
         assert result.exit_code == 0
-        assert "URL:" in result.output or "url" in result.output
-        assert "https://example.com/generated-image.png" in result.output
+        assert "Image Generated Successfully" in result.output
+        assert "Generated (base64 data)" in result.output
 
     def test_image_json_includes_all_fields(
         self, runner, mock_service_factory, mock_ai_service,
