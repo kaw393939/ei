@@ -51,45 +51,45 @@ cd ei
 poetry install
 
 # Verify installation
-ei --version
+eai --version
 ```
 
 ## Quick Start
 
 ```bash
 # Analyze an image with AI
-ei vision analyze photo.jpg --prompt "Describe this image in detail"
+eai vision analyze photo.jpg --prompt "Describe this image in detail"
 
 # Remove background from an image
-ei remove-bg input.jpg --output output.png
+eai remove-bg input.jpg --output output.png
 
 # Smart crop with aspect ratio
-ei crop image.jpg --aspect-ratio 16:9 --output cropped.jpg
+eai crop image.jpg --aspect-ratio 16:9 --output cropped.jpg
 
 # Generate an image
-ei image generate "A serene mountain landscape" --output mountain.png
+eai image generate "A serene mountain landscape" --output mountain.png
 
 # AI-powered search (coming soon)
-ei search "machine learning tutorials"
+eai search "machine learning tutorials"
 
 # Generate professional speech from text
-ei speak "Welcome to our presentation" -o welcome.mp3
+eai speak "Welcome to our presentation" -o welcome.mp3
 
 # Use premium voice with high quality
-ei speak "Important announcement" -o announce.mp3 -v marin -m tts-1-hd
+eai speak "Important announcement" -o announce.mp3 -v marin -m tts-1-hd
 
 # Stream long-form content with progress
-ei speak --input long_script.txt -o audiobook.mp3 --stream
+eai speak --input long_script.txt -o audiobook.mp3 --stream
 ```
 
 ## Commands
 
-### `ei vision`
+### `eai vision`
 
 Analyze images using AI vision models.
 
 ```bash
-ei vision analyze IMAGE_PATH [OPTIONS]
+eai vision analyze IMAGE_PATH [OPTIONS]
 
 Options:
   --prompt TEXT       What to analyze in the image
@@ -98,12 +98,12 @@ Options:
   --detail TEXT       Detail level: low, high, auto (default: auto)
 ```
 
-### `ei crop`
+### `eai crop`
 
 Smart image cropping with AI assistance.
 
 ```bash
-ei crop IMAGE_PATH [OPTIONS]
+eai crop IMAGE_PATH [OPTIONS]
 
 Options:
   --output PATH           Output file path
@@ -113,24 +113,24 @@ Options:
   --focus TEXT           Focus area: center, face, auto
 ```
 
-### `ei remove-bg`
+### `eai remove-bg`
 
 Remove background from images.
 
 ```bash
-ei remove-bg IMAGE_PATH [OPTIONS]
+eai remove-bg IMAGE_PATH [OPTIONS]
 
 Options:
   --output PATH      Output file path
   --format TEXT      Output format: png, jpg (default: png)
 ```
 
-### `ei image`
+### `eai image`
 
 Generate or manipulate images with AI.
 
 ```bash
-ei image generate PROMPT [OPTIONS]
+eai image generate PROMPT [OPTIONS]
 
 Options:
   --output PATH      Output file path
@@ -138,25 +138,25 @@ Options:
   --model TEXT       Model to use (default: dall-e-3)
 ```
 
-### `ei search`
+### `eai search`
 
 AI-powered semantic search (experimental).
 
 ```bash
-ei search QUERY [OPTIONS]
+eai search QUERY [OPTIONS]
 
 Options:
   --limit INT       Number of results (default: 10)
   --format TEXT     Output format: json, table (default: table)
 ```
 
-### `ei speak`
+### `eai speak`
 
 Generate professional speech from text using AI.
 
 ```bash
-ei speak TEXT [OPTIONS]
-ei speak --input FILE [OPTIONS]
+eai speak TEXT [OPTIONS]
+eai speak --input FILE [OPTIONS]
 
 Options:
   --input, -i PATH         Read text from file
@@ -174,23 +174,23 @@ Options:
 
 Examples:
   # Basic usage with default voice
-  ei speak "Hello world" -o hello.mp3
+  eai speak "Hello world" -o hello.mp3
 
   # Premium voice with high quality
-  ei speak "Professional recording" -o pro.mp3 -v marin -m tts-1-hd
+  eai speak "Professional recording" -o pro.mp3 -v marin -m tts-1-hd
 
   # Long-form with streaming
-  ei speak --input script.txt -o audiobook.mp3 --stream
+  eai speak --input script.txt -o audiobook.mp3 --stream
 
   # Custom pronunciation guidance
-  ei speak "Dr. Nguyen at CERN" -o speech.mp3 \
+  eai speak "Dr. Nguyen at CERN" -o speech.mp3 \
     --instructions "Pronounce 'Nguyen' as 'win', 'CERN' as 'sern'"
 
   # Small file size for streaming
-  ei speak "Compact audio" -o compact.opus -f opus
+  eai speak "Compact audio" -o compact.opus -f opus
 
   # Generate and play immediately
-  ei speak "Listen now" -o demo.mp3 --play
+  eai speak "Listen now" -o demo.mp3 --play
 ```
 
 **Voice Options:**
@@ -274,7 +274,7 @@ cd ei
 poetry install
 
 # Run in development mode
-poetry run ei --help
+poetry run eai --help
 ```
 
 ### Testing

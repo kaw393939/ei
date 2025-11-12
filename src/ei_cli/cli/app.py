@@ -22,7 +22,7 @@ from ei_cli.config import reload_settings
 
 
 @click.group()
-@click.version_option(version="0.1.0", prog_name="ei")
+@click.version_option(version="0.1.1", prog_name="eai")
 @click.option(
     "--config",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),

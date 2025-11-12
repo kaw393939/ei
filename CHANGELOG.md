@@ -17,6 +17,27 @@ and this project adheres to
 - Cross-media pattern detection
 - Session memory for conversation context
 
+## [0.1.1] - 2025-11-11
+
+### Changed
+
+- **BREAKING**: Changed CLI command from `ei` to `eai` (EverydayAI)
+  - Better brand alignment and less name collision
+  - More descriptive and memorable command name
+  - All documentation updated to reflect new command
+
+### Fixed
+
+- Updated all examples and documentation to use `eai` command
+
+## [0.1.0] - 2025-11-11
+
+### Added
+
+- Initial PyPI release as `everydayai-cli`
+- Migrated to PEP 621 format in pyproject.toml
+- Fixed all Poetry deprecation warnings (12 → 0)
+
 ## [0.3.0] - 2025-11-10
 
 ### Added
