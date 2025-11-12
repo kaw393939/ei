@@ -1,5 +1,5 @@
 [project]
-name = "ei-cli"
+name = "everydayai-cli"
 version = "0.1.0"
 description = "EverydayAI CLI - Personal AI toolkit for regular people"
 authors = [
